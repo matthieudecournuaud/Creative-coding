@@ -1,5 +1,7 @@
 const canvasSketch = require('canvas-sketch');
 const random = require('canvas-sketch-util/random');
+const math = require('canvas-sketch-util/math');
+
 
 const settings = {
   dimensions: [1080, 1080],
@@ -10,7 +12,7 @@ const sketch = ({ context, width, height }) => {
 
   const agents = [];
 
-  for (let i = 0; i < 40; i++) {
+  for (let i = 0; i < 60; i++) {
     const x = random.range(0, width);
     const y = random.range(0, height);
 
@@ -18,7 +20,7 @@ const sketch = ({ context, width, height }) => {
   }
 
   return ({ context, width, height }) => {
-    context.fillStyle = 'white';
+    context.fillStyle = 'black';
     context.fillRect(0, 0, width, height);
 
     for (let i = 0; i < agents.length; i++) {
@@ -31,9 +33,12 @@ const sketch = ({ context, width, height }) => {
 
         if (dist > 200) continue;
 
+        context.lineWidth = math.mapRange(dist, 0, 200, 4, 1);
+
         context.beginPath();
         context.moveTo(agent.pos.x, agent.pos.y);
         context.lineTo(other.pos.x, other.pos.y);
+        context.strokeStyle = 'white';
         context.stroke();
       }
     }
